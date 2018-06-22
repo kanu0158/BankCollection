@@ -4,38 +4,21 @@ import domain.*;
 import service.*;
 import serviceImpl.*;
 public class MemberController {
-	public void join() {//유저
-		MemberService service = new MemberServiceImpl();
-		MemberBean member = null; 
-		member = new UserBean();
-		member.setName(JOptionPane.showInputDialog("이름"));
-		member.setUid(JOptionPane.showInputDialog("아이디"));
-		member.setPass(JOptionPane.showInputDialog("패스워드"));
-		member.setSsn(JOptionPane.showInputDialog("주민번호"));
-		member.setAddr(JOptionPane.showInputDialog("주소"));
-		member.setPhone(JOptionPane.showInputDialog("폰번호"));
-		service.createUser((UserBean) member);
+	private static MemberController instance = new MemberController();
+	public static MemberController getInstance() {
+		return instance;
 	}
-	public void add() {//직원
-		MemberService service = new MemberServiceImpl();
-		MemberBean member = null; 
-		member = new StaffBean();
-		member.setName(JOptionPane.showInputDialog("이름"));
-		member.setUid(JOptionPane.showInputDialog("아이디"));
-		member.setPass(JOptionPane.showInputDialog("패스워드"));
-		member.setSsn(JOptionPane.showInputDialog("주민번호"));
-		member.setAddr(JOptionPane.showInputDialog("주소"));
-		member.setPhone(JOptionPane.showInputDialog("폰번호"));
-		//service.createStaff((StaffBean) member);
-		
+	private MemberController() {}
+	public void join(UserBean user) {//유저
+		System.out.println("=======멤버 컨트롤러 ==========");
+		System.out.println("화면(index->register)에서 넘어온 객체:"+user);
+		MemberServiceImpl.getInstance().createUser(user);
 	}
-	public void list() {
-		MemberService service = new MemberServiceImpl();
+	public void memberList() {
 		MemberBean member = null; 
 		//service.list();
 	}
 	public void findById() {
-		MemberService service = new MemberServiceImpl();
 		MemberBean member = null; 
 		member = new MemberBean();
 		member.setUid(JOptionPane.showInputDialog("아이디"));
@@ -43,17 +26,14 @@ public class MemberController {
 		//JOptionPane.showMessageDialog(null,service.findById(member));
 	}
 	public void findByName() {
-		MemberService service = new MemberServiceImpl();
 		MemberBean member = null; 
 		//JOptionPane.showMessageDialog(null, service.findByName(JOptionPane.showInputDialog("이름")));
 	}
 	public void count() {
-		MemberService service = new MemberServiceImpl();
 		MemberBean member = null; 
 		//JOptionPane.showMessageDialog(null, service.selectCount());
 	}
 	public void update() {
-		MemberService service = new MemberServiceImpl();
 		MemberBean member = null; 
 		member = new MemberBean();
 		member.setUid(JOptionPane.showInputDialog("아이디"));
@@ -62,10 +42,9 @@ public class MemberController {
 				"/"
 				+
 				JOptionPane.showInputDialog("새 패스워드"));
-		service.updatePass(member);
+		MemberServiceImpl.getInstance().updatePass(member);
 	}
 	public void withdrawal() {
-		MemberService service = new MemberServiceImpl();
 		MemberBean member = null; 
 		member = new MemberBean();
 		member.setUid(JOptionPane.showInputDialog("아이디"));
@@ -75,6 +54,6 @@ public class MemberController {
 				+
 				JOptionPane.showInputDialog("패스워드 확인")
 				);
-		service.deleteMember(member);
+		MemberServiceImpl.getInstance().deleteMember(member);
 	}
 }

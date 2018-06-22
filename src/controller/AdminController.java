@@ -1,41 +1,39 @@
 package controller;
+import java.util.List;
+
 import javax.swing.JOptionPane;
 import domain.*;
 import service.*;
 import serviceImpl.*;
 
-enum AdminButt {
-		EXIT,
-		ADD,
-		LIST,FIND_BY_ID,FIND_BY_NAME,COUNT,
-		UPDATE,
-		REMOVE;
-}
+
 public class AdminController {
-	public static void main(String[] args) {
+	private static AdminController instance = new AdminController();
+	public static AdminController getInstance() {return instance;}
+	private AdminController() {};
+	public void add(StaffBean staff) {//직원
 		AdminService service = new AdminServiceImpl();
-		MemberBean member = null; 
-		while(true) {
-			switch((AdminButt) JOptionPane.showInputDialog(null, "MAIN PAGE", "SELECT MENU",
-					JOptionPane.QUESTION_MESSAGE, null, new AdminButt[] { AdminButt.EXIT,AdminButt.ADD, AdminButt.LIST, AdminButt.FIND_BY_ID, AdminButt.FIND_BY_NAME,AdminButt.COUNT, AdminButt.UPDATE,  AdminButt.REMOVE},
-					null)) {
-			case EXIT:return;
-			case ADD:
-				break;
-			case LIST:
-				break;
-			case FIND_BY_ID:
-				break;
-			case FIND_BY_NAME:
-				break;
-			case COUNT:
-				break;
-			case UPDATE:
-				break;
-			case REMOVE:
-				break;
-			default:break;
-			}
-		}
+		System.out.println("=======어드민 컨트롤러 ==========");
+		System.out.println("화면에서 넘어온 객체:"+staff);
+		service.createStaff(staff);
+		//service.createStaff((StaffBean) member);
+	}
+	public List<MemberBean> memberList(){
+		return null;
+	}
+	public List<MemberBean> findMemberByName(String param){
+		return null;
+		
+	}
+	public MemberBean findMemberById(MemberBean member) {
+		return member;
+		
+	}
+	public List<AccountBean> accountList(){
+		return null;
+		
+	}
+	public List<AccountBean> findAccountByName(String name){
+		return null;
 	}
 }

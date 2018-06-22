@@ -5,7 +5,7 @@ public class MinusAccountBean extends AccountBean {
 	protected String limit;
 	@Override
 	public void setAccountType(String accountType) {
-		super.setAccountType("마이너스통장");
+		super.setAccountType(accountType);
 	}
 	public void setLimit(String limit) {
 		this.limit = limit;

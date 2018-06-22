@@ -1,41 +1,39 @@
 package serviceImpl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import java.util.*;
+import controller.*;
 import domain.*;
+import repositoryImpl.*;
 import service.*;
 
 public class AccountServiceImpl implements AccountService{
-	private List<AccountBean> list;
-	public AccountServiceImpl() {
-		list = new ArrayList<>();
-	}
+	private static AccountService instance = new AccountServiceImpl();
+	public static AccountService getInstance() {return instance;}
+	private AccountServiceImpl() {};
 	@Override
 	public void createAccount(AccountBean account) {
-		account.setCreateDate("4321");
+		System.out.println("=======멤버 서비스 ==========");
+		System.out.println("컨트롤러에서 넘어온 객체:"+account);
 		account.setAccountType("기본통장");
-		account.setAccountNo("1234");
-		list.add(account);
+		account.setCreateDate(AdminServiceImpl.getInstance().createDate());
+		account.setAccountNo(AdminServiceImpl.getInstance().createAccountNo());
+		AccountDAOImpl.getInstance().insertAccount(account);
 	}
 	@Override
 	public void createMinus(MinusAccountBean minusAccount) {
-		minusAccount.setCreateDate("4321");
+		System.out.println("=======멤버 서비스 ==========");
+		System.out.println("컨트롤러에서 넘어온 객체:"+minusAccount);
 		minusAccount.setAccountType("마이너스통장");
-		minusAccount.setAccountNo("1234");
-		list.add(minusAccount);
+		minusAccount.setCreateDate(AdminServiceImpl.getInstance().createDate());
+		minusAccount.setAccountNo(AdminServiceImpl.getInstance().createAccountNo());
+		AccountDAOImpl.getInstance().insertAccount(minusAccount);
 	}
 	@Override
 	public AccountBean findAccountById(AccountBean account) {
 		AccountBean temp = new AccountBean();
 		String uid = account.getUid();
 		String pass = account.getPass();
-		temp = list.get(list.indexOf(account));
+		//temp = AccountDAOImpl.getInstance().get(AccountDAOImpl.getInstance().indexOf(account));
 		if(temp == null) {
 			System.out.println("null");
 		}else if(!temp.getPass().equals(pass)) {
@@ -61,10 +59,10 @@ public class AccountServiceImpl implements AccountService{
 	@Override
 	public void deleteAccount(AccountBean account) {
 		AccountBean ab = findAccountById(account);
-		if(ab == null) {
+		/*if(ab == null) {
 			System.out.println("없는 아이디");
 		}else {
 			list.remove(list.indexOf(ab));
-		}
+		}*/
 	}
 }

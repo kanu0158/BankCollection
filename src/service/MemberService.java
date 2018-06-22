@@ -7,7 +7,7 @@ import domain.*;
 
 public interface MemberService {// list -> map으로 하는 예제
 	public void createUser(UserBean user);
-	public String login(UserBean user);
+	public String login(MemberBean member);
 	public void updatePass(MemberBean member);
 	public void deleteMember(MemberBean member);
 }

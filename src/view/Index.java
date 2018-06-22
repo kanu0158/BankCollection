@@ -25,11 +25,10 @@ public class Index extends JFrame{
 		});
 		this.add(btn1);
 		JButton btn2 = new JButton("통장생성");
-		btn1.addActionListener(new ActionListener() {
-			
+		btn2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				new OpenAccount();
 			}
 		});
 		this.add(btn2);

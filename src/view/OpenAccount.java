@@ -2,14 +2,11 @@ package view;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
 import controller.*;
 import domain.*;
-import service.*;
-import serviceImpl.*;
 
-public class Register extends JFrame{
+public class OpenAccount extends JFrame {
 	private static final long serialVersionUID = 1L;
 	JLabel topLab, idLab,passLab, nameLab, phoneLab, 
 		addrLab, ssnLab, emailLab;
@@ -19,24 +16,24 @@ public class Register extends JFrame{
 	JPanel bottomPan, centerPan, idPan, passPan, 
 		namePan, phonePan, addrPan, ssnPan, emailPan;
 	JComboBox<?> combo;
-	String[] menu = {"사용자 등록","직원 추가"};
-	public Register() {
+	String[] menu = {"기본계좌","마이너스계좌"};
+	public OpenAccount() {
 		makeGui(); //화면구성
 		this.setSize(400, 300);
 		this.setVisible(true);
 	}
 	// uid,pass,name,ssn,phone,email,addr;
 	public void makeGui() {
-		topLab = new JLabel("회원가입", JLabel.CENTER);
+		topLab = new JLabel("계좌생성", JLabel.CENTER);
 		
 		combo = new JComboBox<>(menu);
-		idLab = new JLabel("I D : ", JLabel.CENTER);
+		idLab = new JLabel("아이디 : ", JLabel.CENTER);
 		idTxt = new JTextField(15);
 		idPan = new JPanel();
 		idPan.add(idLab);
 		idPan.add(idTxt);
 		
-		passLab = new JLabel("비밀번호 : ");
+		passLab = new JLabel("비번 : ");
 		passTxt = new JTextField(15);
 		passPan = new JPanel();
 		passPan.add(passLab);
@@ -48,61 +45,29 @@ public class Register extends JFrame{
 		namePan.add(nameLab);
 		namePan.add(nameTxt);
 		
-		ssnLab = new JLabel("주민번호 : ");
-		ssnTxt = new JTextField(15);
-		ssnPan = new JPanel();
-		ssnPan.add(ssnLab);
-		ssnPan.add(ssnTxt);
-
-		phoneLab = new JLabel("전 화 : ");
-		phoneTxt = new JTextField(15);
-		phonePan = new JPanel();
-		phonePan.add(phoneLab);
-		phonePan.add(phoneTxt);
-		
-		emailLab = new JLabel("이메일 : ");
-		emailTxt = new JTextField(15);
-		emailPan = new JPanel();
-		emailPan.add(emailLab);
-		emailPan.add(emailTxt);
-
-		addrLab = new JLabel("주 소 : ");
-		addrTxt = new JTextField(15);
-		addrPan = new JPanel();
-		addrPan.add(addrLab);
-		addrPan.add(addrTxt);
-
-	
-
 		centerPan = new JPanel();
 		centerPan.setLayout(new GridLayout(8, 1));
 		centerPan.add(combo);
 		centerPan.add(idPan);
 		centerPan.add(passPan);
 		centerPan.add(namePan);
-		centerPan.add(ssnPan);
-		centerPan.add(phonePan);
-		centerPan.add(emailPan);
-		centerPan.add(addrPan);
-		
 
 		addBtn = new JButton("추가");
 		addBtn.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				UserBean member = new UserBean();
-				member.setUid(idTxt.getText());
-				member.setName(nameTxt.getText());
-				member.setPass(passTxt.getText());
-				member.setSsn(ssnTxt.getText());
-				member.setAddr(addrTxt.getText());
-				member.setPhone(phoneTxt.getText());
-				member.setEmail(emailTxt.getText());
+				AccountBean account = new MinusAccountBean();
+				account.setUid(idTxt.getText());
+				account.setName(nameTxt.getText());
+				account.setPass(passTxt.getText());
 				if(((String) combo.getSelectedItem()).equals(menu[0])) {
-					MemberController.getInstance().join(member);
+					account.setAccountType(menu[0]);
+					AccountController.getInstance().account(account);
 				}else {
-					//new AccountController().join(member);
+					account.setAccountType(menu[1]);
+					AccountController.getInstance().minusAccount((MinusAccountBean)account);
+					
 				}
 			}
 		});
@@ -115,6 +80,4 @@ public class Register extends JFrame{
 		add(centerPan, "Center");
 		add(bottomPan, "South");
 	}
-
-
 }

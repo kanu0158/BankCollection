@@ -3,3 +3,6 @@
 /service/
 /serviceImpl/
 /view/
+/dao/
+/repository/
+/repositoryImpl/
