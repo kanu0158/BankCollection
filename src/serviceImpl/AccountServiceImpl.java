@@ -1,8 +1,12 @@
 package serviceImpl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import domain.*;
 import service.*;
@@ -26,42 +30,41 @@ public class AccountServiceImpl implements AccountService{
 		minusAccount.setAccountNo("1234");
 		list.add(minusAccount);
 	}
-
 	@Override
-	public List<AccountBean> list() {
-		return list;
-	}
-
-	@Override
-	public AccountBean search(AccountBean account) {
+	public AccountBean findAccountById(AccountBean account) {
 		AccountBean temp = new AccountBean();
-		for(int i=0;i<list.size();i++) {
-			if(account.getUid().equals(list.get(i).getUid()) && account.getPass().equals(list.get(i).getPass())) {
-				temp = list.get(i);
-				break;
-			}
+		String uid = account.getUid();
+		String pass = account.getPass();
+		temp = list.get(list.indexOf(account));
+		if(temp == null) {
+			System.out.println("null");
+		}else if(!temp.getPass().equals(pass)) {
+			System.out.println("패스가달라");
+		}else {
+			System.out.println("찾기완료");
 		}
 		return temp;
 	}
 	@Override
-	public List<AccountBean> search(String word) {
-		List<AccountBean> dap = new ArrayList<>();
-		for(int i=0;i<list.size();i++) {
-			if(word.equals(list.get(i).getName())) {
-				dap.add(list.get(i));
-			}
-		}
-		return dap;
-	}
-	@Override
-	public void update(AccountBean account) {
+	public void updatePass(AccountBean account) {
+		String id = account.getUid();
 		String newPass = account.getPass().split("/")[1];
 		account.setPass(account.getPass().split("/")[0]);
-		list.get(list.indexOf(search(account))).setPass(newPass);
+		AccountBean ab = findAccountById(account);
+		if(ab == null) {
+			System.out.println("없는 아이디입니다.");
+		}else {
+			ab.setPass(newPass);
+		}
 	}
 
 	@Override
-	public void delete(AccountBean account) {
-		list.remove(list.indexOf(search(account)));
+	public void deleteAccount(AccountBean account) {
+		AccountBean ab = findAccountById(account);
+		if(ab == null) {
+			System.out.println("없는 아이디");
+		}else {
+			list.remove(list.indexOf(ab));
+		}
 	}
 }

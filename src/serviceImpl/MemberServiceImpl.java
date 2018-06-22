@@ -1,64 +1,53 @@
 package serviceImpl;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 import domain.*;
-import service.*;
+import service.MemberService;
 
-public class MemberServiceImpl implements MemberService{
-	List<MemberBean> list;
+public class MemberServiceImpl implements MemberService{ // list - > map 으로 하는 예제
+	List<MemberBean> list;//아이디를 키값으로 줌
 	
 	public MemberServiceImpl() {
-		list = new ArrayList<MemberBean>();//count가 필요가 없어짐!
+		list = new ArrayList<>();//뒤는 생략 가능
 	}
 	@Override
 	public void createUser(UserBean user) {
 		user.setCreditRate("7등급");
-		System.out.println("실행결과: " + (list.add(user)?"등록성공":"등록실패"));
+		list.add(user);
 	}
 	@Override
-	public void createStaff(StaffBean staff) {
-		staff.setAccessNum("1234");
-		System.out.println("접근번호" + (list.add(staff)?"등록성공":"등록실패"));
+	public String login(UserBean member) {
+		return "";
 	}
 	@Override
-	public List<MemberBean> list() {
-		// TODO Auto-generated method stub
-		return list;
-	}
-	@Override
-	public List<MemberBean> search(String param) {
-		List<MemberBean> temp = new ArrayList<>();//앞에서 제네릭 줬으면 생략가능
-		for(int i=0;i<list.size();i++) {
-			if(param.equals(list.get(i).getName())) {//list[i] == list.get(i)
-				temp.add(list.get(i));
+	public void updatePass(MemberBean member) {
+		String id = member.getUid();
+		String oldPass = member.getPass().split("/")[0];
+		String newPass = member.getPass().split("/")[1];
+		MemberBean mem = null;
+		for(MemberBean e : list) {
+			if(id.equals(e.getUid()) && oldPass.equals(e.getPass())) {
+				mem = e;
 			}
 		}
-		return temp;
-	}
-	@Override
-	public MemberBean search(MemberBean member) {
-		MemberBean dap = new MemberBean();
-		for(int i=0;i<list.size();i++) {
-			if(member.getUid().equals(list.get(i).getUid())) {
-				dap = list.get(i);
-				break;
+		
+		if(mem == null) {
+			System.out.println("수정하려는 id가 없음");
+		}else {
+			if(oldPass.equals(mem.getPass())) {
+				mem.setPass(newPass);
 			}
 		}
-		return dap;
 	}
 	@Override
-	public void update(MemberBean member) {
-		list.get(list.indexOf(search(member))).setPass(member.getPass());
-		/*for(int i=0;i<list.size();i++) {
-			if(member.getUid().equals(list.get(i).getUid())) {
-				search(member).setPass(member.getPass());
+	public void deleteMember(MemberBean member) {
+		//map.remove(findById(member).getUid());
+		String id = member.getUid();
+		String pass = member.getPass();
+		for(MemberBean e : list) {
+			if(id.equals(e.getUid()) && pass.equals(e.getPass())) {
+				list.remove(e);
 			}
-		}*/
-	}
-	@Override
-	public void delete(MemberBean member) {
-		list.remove(list.indexOf(search(member)));//인덱스 반환 받아서 파라미터로 준 경우
-		//list.remove(search(member));//객체 자체를 넘긴 경우
+		}
 	}
 }
